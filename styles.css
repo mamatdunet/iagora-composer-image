@@ -508,6 +508,57 @@ textarea:focus { outline: none; border-color: var(--blue-600); box-shadow: 0 0 0
 .ar-toggle input { width: 20px; height: 20px; accent-color: var(--pink-600); }
 .ar-toggle kbd { background: var(--white); }
 
+/* Champ --no */
+.no-field { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; font-size: 15px; font-weight: 600; }
+.no-field kbd { background: var(--white); }
+.no-field input {
+  width: 220px;
+  max-width: 100%;
+  padding: 8px 14px;
+  border: 2px solid var(--white);
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--ink-900);
+  font: inherit;
+  font-weight: 400;
+}
+.no-field input::placeholder { color: var(--ink-500); }
+.no-field input:focus { outline: none; box-shadow: 0 0 0 4px var(--pink-600); }
+
+/* Astuces Midjourney */
+.tips { margin-top: 40px; }
+.tips .choose { margin-bottom: 6px; }
+.tips-lead { margin: 0 0 16px; max-width: 70ch; color: var(--ink-500); font-size: 16px; }
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 16px;
+}
+.tip {
+  min-width: 0;
+  padding: 20px 22px;
+  border: 2px dashed var(--ink-900);
+  border-radius: var(--radius-lg);
+  font-size: 15px;
+}
+.tip h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+  color: var(--blue-600);
+}
+.tip p { margin: 0 0 8px; }
+.tip p:last-child { margin-bottom: 0; }
+.tip ul { margin: 0; padding-left: 18px; }
+.tip li { margin-bottom: 6px; }
+.tip li::marker { color: var(--pink-700); }
+.tips-sources { margin: 16px 0 0; font-size: 14px; color: var(--ink-500); }
+.tips-sources a { font-weight: 600; }
+
 /* Bas de page */
 footer {
   padding: 14px 0 20px;

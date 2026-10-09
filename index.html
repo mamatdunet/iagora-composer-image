@@ -45,8 +45,49 @@
         <div class="stage-actions">
           <button class="cta cta-big" type="button" id="copy">Copier le prompt</button>
           <label class="ar-toggle"><input type="checkbox" id="ar-toggle"> Ajouter le format pour Midjourney <kbd id="ar-preview">--ar</kbd></label>
+          <div class="no-field">
+            <label for="no-input">À exclure de l'image <kbd>--no</kbd></label>
+            <input type="text" id="no-input" placeholder="ex. : texte, voitures" autocomplete="off">
+          </div>
           <button class="cta cta-ghost" type="button" id="reset">Tout recommencer</button>
         </div>
+      </section>
+
+      <section class="tips" id="astuces" aria-labelledby="tips-title">
+        <h2 class="choose" id="tips-title">Bien prompter sur Midjourney ➭</h2>
+        <p class="tips-lead">Quelques réflexes simples, tirés de la documentation officielle de Midjourney, qui marchent aussi avec la plupart des autres outils.</p>
+        <div class="tips-grid">
+          <article class="tip">
+            <h3>Sois précis</h3>
+            <p>«&nbsp;Un golden retriever&nbsp;» plutôt que «&nbsp;un chien&nbsp;». «&nbsp;Gigantesque&nbsp;» plutôt que «&nbsp;grand&nbsp;». Remplace chaque <kbd>[crochet]</kbd> par un détail concret&nbsp;: la couleur, la matière, ce que fait ton sujet.</p>
+          </article>
+          <article class="tip">
+            <h3>Compte tes sujets</h3>
+            <p>«&nbsp;Trois chats&nbsp;» plutôt que «&nbsp;des chats&nbsp;», «&nbsp;une volée d'oiseaux&nbsp;» plutôt que «&nbsp;des oiseaux&nbsp;». Un nombre ou un nom collectif évite les surprises.</p>
+          </article>
+          <article class="tip">
+            <h3>Dis ce que tu veux voir</h3>
+            <p>Écrire «&nbsp;sans voiture&nbsp;» peut… faire apparaître une voiture&nbsp;! Décris plutôt ce qui doit être là. Pour exclure vraiment un élément, utilise <kbd>--no voiture</kbd>&nbsp;: le champ «&nbsp;À exclure&nbsp;» ci-dessus l'écrit pour toi.</p>
+          </article>
+          <article class="tip">
+            <h3>Court ou détaillé&nbsp;?</h3>
+            <p>Un prompt court laisse Midjourney choisir le style à ta place. Chaque catégorie remplie ici te redonne le contrôle&nbsp;: lumière, couleurs, cadrage, technique. Garde l'essentiel, sans répéter la même idée.</p>
+          </article>
+          <article class="tip">
+            <h3>Les paramètres, à la fin</h3>
+            <p>Ils commencent par deux tirets et se placent après le texte&nbsp;:</p>
+            <ul>
+              <li><kbd>--ar 16:9</kbd> le format (carré par défaut)</li>
+              <li><kbd>--stylize 50</kbd> de 0 à 1000 (100 par défaut)&nbsp;: bas = fidèle au prompt, haut = plus artistique</li>
+              <li><kbd>--chaos 30</kbd> de 0 à 100&nbsp;: plus de variété entre les 4 images</li>
+            </ul>
+          </article>
+          <article class="tip">
+            <h3>Change une chose à la fois</h3>
+            <p>Midjourney propose 4 images. Garde la meilleure, puis modifie un seul élément (l'angle, le moment de la journée…) pour voir son effet. Si le résultat résiste, essaie le prompt traduit en anglais&nbsp;: les outils d'IA le comprennent souvent mieux.</p>
+          </article>
+        </div>
+        <p class="tips-sources">Pour aller plus loin&nbsp;: <a href="https://docs.midjourney.com/hc/en-us/articles/32023408776205-Prompt-Basics" target="_blank" rel="noopener">Prompt Basics</a> · <a href="https://docs.midjourney.com/hc/en-us/articles/32859204029709-Parameter-List" target="_blank" rel="noopener">liste des paramètres</a> · <a href="https://docs.midjourney.com/hc/en-us/articles/32173351982093-No" target="_blank" rel="noopener">--no</a> · <a href="https://docs.midjourney.com/hc/en-us/articles/32196176868109-Stylize" target="_blank" rel="noopener">--stylize</a> · <a href="https://docs.midjourney.com/hc/en-us/articles/32099348346765-Chaos-Variety" target="_blank" rel="noopener">--chaos</a> (documentation Midjourney, en anglais)</p>
       </section>
     </div>
   </main>

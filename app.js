@@ -159,7 +159,7 @@ const CATEGORIES = [
 const STORAGE_KEY = 'iagora-compose-image-v1';
 const PLACEHOLDER = /\[[^\]]*\]/g;
 
-const state = { selected: {}, texts: {}, ar: false };
+const state = { selected: {}, texts: {}, ar: false, no: '' };
 
 function load() {
   try {
@@ -266,6 +266,8 @@ function buildPrompt() {
   let prompt = parts.length ? parts.join('. ') + '.' : '';
   const ratio = selectedRatio();
   if (state.ar && ratio && prompt) prompt += ` --ar ${ratio}`;
+  const no = (state.no || '').trim().replace(/^--no\s*/, '');
+  if (no && prompt) prompt += ` --no ${no}`;
   return prompt;
 }
 
@@ -340,6 +342,9 @@ function init() {
   document.getElementById('copy').addEventListener('click', (e) => copyPrompt(e.currentTarget));
   document.getElementById('dock-copy').addEventListener('click', (e) => copyPrompt(e.currentTarget));
   document.getElementById('ar-toggle').addEventListener('change', (e) => { state.ar = e.target.checked; update(); });
+  const noInput = document.getElementById('no-input');
+  noInput.value = state.no || '';
+  noInput.addEventListener('input', () => { state.no = noInput.value; update(); });
 
   const reset = document.getElementById('reset');
   reset.addEventListener('click', () => {
@@ -353,6 +358,8 @@ function init() {
     reset.textContent = 'Tout recommencer';
     state.selected = {};
     state.texts = {};
+    state.no = '';
+    document.getElementById('no-input').value = '';
     document.querySelectorAll('.category input[type=radio]').forEach((r) => { r.checked = false; });
     document.querySelectorAll('.category textarea').forEach((t) => { t.value = ''; });
     update();
