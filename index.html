@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Compose ton image</title>
+  <meta name="description" content="Atelier IAgora : compose le prompt de ton image pièce par pièce, du premier plan au moment de la journée, puis copie-le dans ton outil d'IA générative.">
+  <link rel="icon" href="assets/logo-iagora.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Heebo:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a href="https://iagora.fr/" aria-label="IAgora"><img class="logo" src="assets/logo-iagora.png" alt="IAgora"></a>
+      <span class="tag">Atelier image · Aide au prompt · Tout public</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <p class="eyebrow">Atelier IAgora</p>
+      <h1>Compose <span class="nowrap">ton image</span></h1>
+      <p class="lead">Choisis une vignette par catégorie&nbsp;: le texte du prompt se remplit tout seul, et tu peux le <strong>modifier à ta guise</strong>. En bas de page, <strong>ton prompt complet</strong> t'attend, prêt à copier dans Midjourney, ChatGPT, Mistral, Gemini, Firefly…</p>
+
+      <div class="choose-row">
+        <h2 class="choose">Construis ton image ➭</h2>
+        <p class="hint">Une seule vignette par catégorie. Les mots entre <kbd>[crochets]</kbd> sont à remplacer par ta propre idée.</p>
+      </div>
+
+      <div id="categories" class="categories"></div>
+
+      <section class="stage" id="prompt" aria-labelledby="prompt-title">
+        <div class="stage-head">
+          <p class="stage-eyebrow">Ton image est prête&nbsp;?</p>
+          <h2 id="prompt-title">Ton prompt</h2>
+          <p class="stage-progress" id="progress" aria-live="polite"></p>
+        </div>
+        <div class="prompt-box">
+          <p class="prompt-output" id="prompt-output"></p>
+          <p class="prompt-todo" id="prompt-todo" hidden></p>
+        </div>
+        <div class="stage-actions">
+          <button class="cta cta-big" type="button" id="copy">Copier le prompt</button>
+          <label class="ar-toggle"><input type="checkbox" id="ar-toggle"> Ajouter le format pour Midjourney <kbd id="ar-preview">--ar</kbd></label>
+          <button class="cta cta-ghost" type="button" id="reset">Tout recommencer</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <ol class="steps">
+        <li><span>1</span>Je choisis mes vignettes</li>
+        <li><span>2</span>J'ajuste les textes</li>
+        <li><span>3</span>Je copie mon prompt</li>
+        <li><span>4</span>Je génère mon image</li>
+      </ol>
+      <span>L'IA par tous et pour tous / iagora.fr</span>
+    </div>
+  </footer>
+
+  <div class="dock" id="dock">
+    <div class="dock-inner">
+      <span class="dock-count" id="dock-count"></span>
+      <a class="dock-link" href="#prompt">Voir mon prompt ➭</a>
+      <button class="cta dock-copy" type="button" id="dock-copy">Copier</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
