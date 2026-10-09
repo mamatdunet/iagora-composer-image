@@ -118,7 +118,7 @@ const CATEGORIES = [
     intro: "La forme du cadre : plus haut que large, carré ou plus large que haut.",
     help: {
       summary: 'Que veulent dire 9:16, 3:2 ou 16:9 ?',
-      html: "<p>Le format se note <strong>largeur&nbsp;:&nbsp;hauteur</strong>. En 16:9, l'image fait 16 parts de large pour 9 parts de haut, comme un écran de télévision.</p><ul><li><strong>Portrait</strong>, plus haut que large&nbsp;: écran de téléphone, story, affiche.</li><li><strong>Carré</strong> (1:1)&nbsp;: publication sur les réseaux sociaux.</li><li><strong>Paysage</strong>, plus large que haut&nbsp;: photo classique, écran, cinéma, bannière.</li></ul><p>Beaucoup d'outils ont un réglage de format à part. Dans Midjourney, il s'écrit <kbd>--ar 16:9</kbd> à la fin du prompt&nbsp;: coche la case en bas de page pour l'ajouter automatiquement.</p>",
+      html: "<p>Le format se note <strong>largeur&nbsp;:&nbsp;hauteur</strong>. En 16:9, l'image fait 16 parts de large pour 9 parts de haut, comme un écran de télévision.</p><ul><li><strong>Portrait</strong>, plus haut que large&nbsp;: écran de téléphone, story, affiche.</li><li><strong>Carré</strong> (1:1)&nbsp;: publication sur les réseaux sociaux.</li><li><strong>Paysage</strong>, plus large que haut&nbsp;: photo classique, écran, cinéma, bannière.</li></ul><p>Beaucoup d'outils ont un réglage de format à part. Dans Midjourney, on peut aussi l'écrire à la fin du prompt, par exemple <kbd>--ar 16:9</kbd>.</p>",
     },
     items: [
       { id: 'fo-1-2', ratio: '1:2', label: 'Portrait 1:2', detail: 'Très vertical, bannière.', prompt: "Format portrait très vertical, ratio 1:2" },
@@ -159,7 +159,7 @@ const CATEGORIES = [
 const STORAGE_KEY = 'iagora-compose-image-v1';
 const PLACEHOLDER = /\[[^\]]*\]/g;
 
-const state = { selected: {}, texts: {}, ar: false, no: '' };
+const state = { selected: {}, texts: {}, no: '' };
 
 function load() {
   try {
@@ -253,19 +253,11 @@ function select(cat, item) {
   update();
 }
 
-function selectedRatio() {
-  const fmt = CATEGORIES.find((c) => c.id === 'format');
-  const item = fmt.items.find((i) => i.id === state.selected.format);
-  return item ? item.ratio : null;
-}
-
 function buildPrompt() {
   const parts = CATEGORIES
     .map((c) => (state.texts[c.id] || '').trim().replace(/[\s.;,]+$/, ''))
     .filter(Boolean);
   let prompt = parts.length ? parts.join('. ') + '.' : '';
-  const ratio = selectedRatio();
-  if (state.ar && ratio && prompt) prompt += ` --ar ${ratio}`;
   const no = (state.no || '').trim().replace(/^--no\s*/, '');
   if (no && prompt) prompt += ` --no ${no}`;
   return prompt;
@@ -306,11 +298,6 @@ function update() {
   document.getElementById('progress').textContent = progress;
   document.getElementById('dock-count').innerHTML = `<b>${filled}</b>/${total} catégories`;
 
-  const ratio = selectedRatio();
-  const arToggle = document.getElementById('ar-toggle');
-  arToggle.checked = state.ar;
-  document.getElementById('ar-preview').textContent = ratio ? `--ar ${ratio}` : '--ar';
-
   ['copy', 'dock-copy'].forEach((id) => { document.getElementById(id).disabled = !prompt; });
   save();
 }
@@ -341,7 +328,6 @@ function init() {
 
   document.getElementById('copy').addEventListener('click', (e) => copyPrompt(e.currentTarget));
   document.getElementById('dock-copy').addEventListener('click', (e) => copyPrompt(e.currentTarget));
-  document.getElementById('ar-toggle').addEventListener('change', (e) => { state.ar = e.target.checked; update(); });
   const noInput = document.getElementById('no-input');
   noInput.value = state.no || '';
   noInput.addEventListener('input', () => { state.no = noInput.value; update(); });

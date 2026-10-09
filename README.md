@@ -5,7 +5,7 @@ Petit site statique qui aide à écrire, en français, le prompt d'une image gé
 Pour chaque catégorie (premier plan, arrière-plan, style, type de plan, place du sujet, objectif,
 angle, format, couleurs, moment de la journée), on choisit **une vignette**. Le texte
 correspondant remplit un champ modifiable, et tous les champs sont assemblés en bas de page
-dans un prompt prêt à copier (options `--ar` et `--no` pour Midjourney), avec une section d'astuces Midjourney.
+dans un prompt prêt à copier (option `--no` pour Midjourney), avec une section d'astuces Midjourney.
 
 ## Lancer en local
 
