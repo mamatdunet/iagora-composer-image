@@ -22,7 +22,10 @@
   <main>
     <div class="wrap">
       <p class="eyebrow">Atelier IAgora</p>
-      <h1>Compose <span class="nowrap">ton image</span></h1>
+      <div class="title-row">
+        <h1>Compose <span class="nowrap">ton image</span></h1>
+        <button class="reset-top" type="button" id="reset-top" data-label="Nouvelle image">Nouvelle image</button>
+      </div>
       <p class="lead">Choisis une vignette par catégorie&nbsp;: le texte du prompt se remplit tout seul, et tu peux le <strong>modifier à ta guise</strong>. En bas de page, <strong>ton prompt complet</strong> t'attend, prêt à copier dans Midjourney, ChatGPT, Mistral, Gemini, Firefly…</p>
 
       <div class="choose-row">
@@ -39,7 +42,10 @@
           <p class="stage-progress" id="progress" aria-live="polite"></p>
         </div>
         <div class="prompt-box">
-          <p class="prompt-output" id="prompt-output"></p>
+          <label class="sr-only" for="prompt-output">Ton prompt, modifiable</label>
+          <textarea class="prompt-output" id="prompt-output" rows="6" placeholder="Ton prompt apparaîtra ici dès ta première vignette choisie. Tu peux aussi l'écrire ou le retoucher directement."></textarea>
+          <p class="prompt-hint" id="prompt-hint">Tu peux retoucher ce texte directement avant de le copier.</p>
+          <p class="prompt-custom" id="prompt-custom" hidden>Tu as modifié le prompt à la main&nbsp;: tes prochains choix ne l'écraseront pas. <button type="button" class="link-btn" id="prompt-regen">Revenir au prompt généré</button></p>
           <p class="prompt-todo" id="prompt-todo" hidden></p>
         </div>
         <div class="stage-actions">
@@ -48,7 +54,7 @@
             <label for="no-input">À exclure de l'image <kbd>--no</kbd></label>
             <input type="text" id="no-input" placeholder="ex. : texte, voitures" autocomplete="off">
           </div>
-          <button class="cta cta-ghost" type="button" id="reset">Tout recommencer</button>
+          <button class="cta cta-ghost" type="button" id="reset" data-label="Tout recommencer">Tout recommencer</button>
         </div>
       </section>
 

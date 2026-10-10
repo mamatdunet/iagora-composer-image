@@ -159,7 +159,7 @@ const CATEGORIES = [
 const STORAGE_KEY = 'iagora-compose-image-v1';
 const PLACEHOLDER = /\[[^\]]*\]/g;
 
-const state = { selected: {}, texts: {}, no: '' };
+const state = { selected: {}, texts: {}, no: '', custom: null };
 
 function load() {
   try {
@@ -272,22 +272,15 @@ function update() {
     document.getElementById(c.id).classList.toggle('is-done', Boolean((state.texts[c.id] || '').trim()));
   }
 
+  // Un prompt retouché à la main n'est plus écrasé par les choix de vignettes.
   const out = document.getElementById('prompt-output');
-  out.replaceChildren();
-  if (!prompt) {
-    out.classList.add('is-empty');
-    out.textContent = 'Ton prompt apparaîtra ici dès ta première vignette choisie.';
-  } else {
-    out.classList.remove('is-empty');
-    let last = 0;
-    for (const m of prompt.matchAll(PLACEHOLDER)) {
-      out.append(prompt.slice(last, m.index), el('mark', { text: m[0] }));
-      last = m.index + m[0].length;
-    }
-    out.append(prompt.slice(last));
-  }
+  const isCustom = state.custom !== null;
+  const finalPrompt = currentPrompt();
+  if (!isCustom && out.value !== prompt) out.value = prompt;
+  document.getElementById('prompt-custom').hidden = !isCustom;
+  document.getElementById('prompt-hint').hidden = isCustom || !prompt;
 
-  const todo = (prompt.match(PLACEHOLDER) || []).length;
+  const todo = (finalPrompt.match(PLACEHOLDER) || []).length;
   const todoEl = document.getElementById('prompt-todo');
   todoEl.hidden = todo === 0;
   todoEl.textContent = todo === 1
@@ -298,23 +291,25 @@ function update() {
   document.getElementById('progress').textContent = progress;
   document.getElementById('dock-count').innerHTML = `<b>${filled}</b>/${total} catégories`;
 
-  ['copy', 'dock-copy'].forEach((id) => { document.getElementById(id).disabled = !prompt; });
+  ['copy', 'dock-copy'].forEach((id) => { document.getElementById(id).disabled = !finalPrompt.trim(); });
   save();
 }
 
+function currentPrompt() {
+  return state.custom !== null ? state.custom : buildPrompt();
+}
+
 async function copyPrompt(button) {
-  const prompt = buildPrompt();
+  const prompt = currentPrompt().trim();
   if (!prompt) return;
   const label = button.textContent;
   try {
     await navigator.clipboard.writeText(prompt);
     button.textContent = 'Copié !';
   } catch (e) {
-    const range = document.createRange();
-    range.selectNodeContents(document.getElementById('prompt-output'));
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
+    const out = document.getElementById('prompt-output');
+    out.focus();
+    out.select();
     button.textContent = 'Texte sélectionné : Ctrl+C';
   }
   button.classList.add('copied');
@@ -332,25 +327,31 @@ function init() {
   noInput.value = state.no || '';
   noInput.addEventListener('input', () => { state.no = noInput.value; update(); });
 
-  const reset = document.getElementById('reset');
-  reset.addEventListener('click', () => {
-    if (reset.dataset.confirm !== 'yes') {
-      reset.dataset.confirm = 'yes';
-      reset.textContent = 'Sûr ? Clique encore';
-      setTimeout(() => { reset.dataset.confirm = ''; reset.textContent = 'Tout recommencer'; }, 3000);
-      return;
-    }
-    reset.dataset.confirm = '';
-    reset.textContent = 'Tout recommencer';
-    state.selected = {};
-    state.texts = {};
-    state.no = '';
-    document.getElementById('no-input').value = '';
-    document.querySelectorAll('.category input[type=radio]').forEach((r) => { r.checked = false; });
-    document.querySelectorAll('.category textarea').forEach((t) => { t.value = ''; });
+  const out = document.getElementById('prompt-output');
+  if (state.custom !== null) out.value = state.custom;
+  out.addEventListener('input', () => {
+    state.custom = out.value === buildPrompt() ? null : out.value;
     update();
-    document.getElementById('premier-plan').scrollIntoView({ behavior: 'smooth' });
   });
+  document.getElementById('prompt-regen').addEventListener('click', () => {
+    state.custom = null;
+    update();
+  });
+
+  // Effacer tout : deux clics pour éviter l'effacement par mégarde.
+  for (const button of [document.getElementById('reset-top'), document.getElementById('reset')]) {
+    button.addEventListener('click', () => {
+      if (button.dataset.confirm !== 'yes') {
+        button.dataset.confirm = 'yes';
+        button.textContent = 'Sûr ? Clique encore';
+        setTimeout(() => { button.dataset.confirm = ''; button.textContent = button.dataset.label; }, 3000);
+        return;
+      }
+      button.dataset.confirm = '';
+      button.textContent = button.dataset.label;
+      resetAll();
+    });
+  }
 
   // Le bandeau du bas se cache quand le prompt complet est à l'écran.
   const dock = document.getElementById('dock');
@@ -360,6 +361,18 @@ function init() {
   }
 
   update();
+}
+
+function resetAll() {
+  state.selected = {};
+  state.texts = {};
+  state.no = '';
+  state.custom = null;
+  document.getElementById('no-input').value = '';
+  document.querySelectorAll('.category input[type=radio]').forEach((r) => { r.checked = false; });
+  document.querySelectorAll('.category textarea').forEach((t) => { t.value = ''; });
+  update();
+  document.getElementById('premier-plan').scrollIntoView({ behavior: 'smooth' });
 }
 
 init();
